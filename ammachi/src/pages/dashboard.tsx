@@ -144,7 +144,6 @@ const Dashboard = () => {
     navigate("/");
   };
 
-
   const sendEmail = async (email: string, userId: string, frontendUrl: string, message: string) => {
     const res = await fetch("http://localhost:5000/api/send-ammachi-mail", {
       method: "POST",
@@ -193,16 +192,21 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="relative h-screen w-full bg-blue-100 p-6 overflow-hidden flex flex-col items-center ">
+    <div 
+      className="h-screen w-screen overflow-hidden flex flex-col items-center p-6"
+      style={{
+        background: 'linear-gradient(to bottom, #c8e2f9, #6ecdeb, #243c74)',
+      }}
+    >
       <button
         onClick={handleLogout}
-        className="absolute top-4 right-4 flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+        className="absolute top-4 right-4 flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl z-50"
       >
         <FiLogOut className="text-lg" /> Logout
       </button>
-      
+
       {/* Ammachi Selector Card */}
-      <div className="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-4xl mb-8 mt-10">
+      <div className="bg-white/50 p-6 rounded-3xl shadow-xl w-full max-w-4xl mb-8 mt-10 backdrop-blur-sm">
         <div className="flex items-center justify-center gap-4">
           <button 
             onClick={prevAmmachi}
@@ -212,18 +216,15 @@ const Dashboard = () => {
           </button>
           
           <div className="text-center flex-1">
-            <h1 className="text-2xl font-bold text-gray-800">{selectedAmmachi?.name }</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{selectedAmmachi?.name}</h1>
             <p className="text-gray-600 text-sm mb-4">{selectedAmmachi?.description || ""}</p>
             
-            {/* Select Ammachi Button */}
             <button
               onClick={handleSelectAmmachi}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium w-full max-w-xs mx-auto"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl font-medium w-full max-w-xs mx-auto"
             >
               Select Ammachi
             </button>
-            
-
           </div>
           
           <button 
@@ -236,8 +237,8 @@ const Dashboard = () => {
       </div>
 
       {/* Mood and Quote Card with Image */}
-      <div className="relative w-full max-w-4xl mb-8 mt-10">
-        {/* Ammachi Image - Positioned to the left */}
+      <div className="relative w-full max-w-4xl mb-8">
+        {/* Ammachi Image - Original rounded-lg */}
         <div className="absolute -top-8 left-8 z-10">
           <img 
             src={AmmachiImage} 
@@ -247,8 +248,7 @@ const Dashboard = () => {
         </div>
 
         {/* Mood and Quote Card */}
-        <div className="bg-white/80 p-8 pt-20 rounded-lg shadow-md">
-          {/* Mood Bar - Centered */}
+        <div className="bg-white/50 p-8 pt-20 rounded-3xl shadow-xl backdrop-blur-sm">
           <div className="mb-6 text-center">
             <h3 className="font-medium mb-2">Mood</h3>
             <div className="flex items-center gap-4 justify-center">
@@ -265,7 +265,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Dialogue - Centered */}
           <div className="text-center">
             <h3 className="font-medium mb-2">Dialogue based on mood</h3>
             <p className="text-gray-700 italic">"{getMoodQuote()}"</p>
@@ -274,19 +273,17 @@ const Dashboard = () => {
       </div>
 
       {/* Chat Panel */}
-      <div
-        className={`fixed bottom-0 left-0 right-0 bg-white/80 shadow-lg rounded-t-lg transition-all duration-300 mx-auto max-w-4xl mb-20 ${
-          isChatExpanded ? 'h-1/2' : 'h-16 opacity-70 hover:opacity-90'
-        }`}
-      >
+      <div className={`fixed bottom-20 left-0 right-0 bg-white/50 shadow-xl rounded-t-3xl rounded-b-3xl transition-all duration-300 mx-auto max-w-4xl backdrop-blur-sm ${
+        isChatExpanded ? 'h-1/2' : 'h-16'
+      }`}>
         <div 
-          className="h-16 flex items-center justify-between px-6 border-b cursor-pointer"
+          className="h-16 flex items-center justify-between px-6 cursor-pointer rounded-t-3xl"
           onClick={toggleChat}
         >
           <h2 className="font-semibold">Chat with Ammachi</h2>
           {isChatExpanded ? <FiArrowDown /> : <FiArrowUp />}
         </div>
-
+        
         {isChatExpanded && (
           <div className="h-[calc(100%-64px)] flex flex-col">
             <div className="flex-1 p-4 overflow-y-auto">
@@ -296,10 +293,10 @@ const Dashboard = () => {
                   className={`mb-3 ${msg.sender === 'ammachi' ? 'text-left' : 'text-right'}`}
                 >
                   <div
-                    className={`inline-block max-w-xs px-4 py-2 rounded-lg ${
+                    className={`inline-block max-w-xs px-4 py-2 rounded-2xl ${
                       msg.sender === 'ammachi' 
-                        ? 'bg-blue-100 text-blue-900 rounded-bl-none' 
-                        : 'bg-green-100 text-green-900 rounded-br-none'
+                        ? 'bg-blue-100/70 text-blue-900 rounded-bl-none' 
+                        : 'bg-green-100/70 text-green-900 rounded-br-none'
                     }`}
                   >
                     {msg.text}
@@ -308,7 +305,7 @@ const Dashboard = () => {
               ))}
               {isLoading && (
                 <div className="text-left mb-3">
-                  <div className="inline-block px-4 py-2 rounded-lg bg-gray-200 text-gray-700 rounded-bl-none">
+                  <div className="inline-block px-4 py-2 rounded-2xl bg-gray-200/70 text-gray-700 rounded-bl-none">
                     Ammachi is thinking...
                   </div>
                 </div>
@@ -324,13 +321,13 @@ const Dashboard = () => {
                   onChange={(e) => setUserInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
-                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/70"
                   disabled={isLoading}
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={isLoading}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-1"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl flex items-center gap-1"
                 >
                   <FiSend /> Send
                 </button>
