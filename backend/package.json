@@ -1,0 +1,44 @@
+{
+
+  "scripts": {
+
+    "build": "tsc",
+
+    "dev": "tsc --watch",
+
+    "start": "node dist/mailer.js"
+
+  },
+
+  "devDependencies": {
+
+    "@types/cors": "^2.8.19",
+
+    "@types/express": "^5.0.3",
+
+    "@types/nodemailer": "^6.4.17",
+
+    "typescript": "^5.8.3"
+
+  },
+
+  "dependencies": {
+
+    "@google/generative-ai": "^0.24.1",
+
+    "@supabase/supabase-js": "^2.52.1",
+
+    "cors": "^2.8.5",
+
+    "dotenv": "^17.2.1",
+
+    "express": "^5.1.0",
+
+    "nodemailer": "^7.0.5",
+
+    "supabase": "^2.31.8"
+
+  }
+
+}
+

@@ -1,10 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "../lib/supabaseClient";
 import toast from "react-hot-toast";
-import { FiSend, FiChevronLeft, FiChevronRight, FiArrowUp, FiArrowDown,FiLogOut } from "react-icons/fi";
-import AmmachiImage from "../assets/login.png"; // Import your Ammachi image
+import { FiSend, FiChevronLeft, FiChevronRight, FiArrowUp, FiArrowDown, FiLogOut } from "react-icons/fi";
+import AmmachiImage from "../assets/login.png";
 import { useNavigate } from "react-router-dom";
-
 
 type Ammachi = {
   id: string;
@@ -15,6 +14,7 @@ type Ammachi = {
     neutral: string;
     angry: string;
   };
+  image_url?: string;
 };
 
 type ChatMessage = {
@@ -30,8 +30,12 @@ const Dashboard = () => {
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const scoldInterval = useRef<NodeJS.Timeout | null>(null);
+  const scoldTimeout = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const selectedAmmachi = ammachis[currentAmmachiIndex] || null;
 
@@ -45,7 +49,22 @@ const Dashboard = () => {
       if (error) toast.error("Failed to load Ammachis");
       else setAmmachis(data || []);
     };
+
+    const getCurrentUserInfo = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) throw error || new Error("User not logged in");
+        setCurrentUserId(user.id);
+        setUserEmail(user.email ?? null);
+        return user;
+      } catch (error) {
+        toast.error("User not logged in");
+        navigate("/");
+      }
+    };
+
     fetchAmmachiTypes();
+    getCurrentUserInfo();
     startConversation();
   }, []);
 
@@ -125,6 +144,54 @@ const Dashboard = () => {
     navigate("/");
   };
 
+
+  const sendEmail = async (email: string, userId: string, frontendUrl: string, message: string) => {
+    const res = await fetch("http://localhost:5000/api/send-ammachi-mail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ to: email, message, userId, frontendUrl })
+    });
+
+    if (!res.ok) throw new Error("Email failed");
+    await supabase.from("users").update({ last_email_sent_at: new Date().toISOString() }).eq("id", userId);
+  };
+
+  const startEmailBombardment = async (userId: string, email: string) => {
+    const frontendUrl = window.location.origin;
+    const message = `⚠️ Ammachi "${selectedAmmachi?.name}" has been activated!\n\n${selectedAmmachi?.description || "Strict vibes incoming!"}`;
+
+    await supabase.from("users").update({
+      needs_scolding: true,
+      last_email_sent_at: new Date().toISOString(),
+      ammachi_type_id: selectedAmmachi?.id
+    }).eq("id", userId);
+
+    await sendEmail(email, userId, frontendUrl, message);
+
+    scoldInterval.current = setInterval(async () => {
+      await sendEmail(email, userId, frontendUrl, message);
+    }, 2 * 60 * 1000);
+
+    scoldTimeout.current = setTimeout(() => {
+      if (scoldInterval.current) {
+        clearInterval(scoldInterval.current);
+      }
+    }, 10 * 60 * 1000);
+  };
+
+  const handleSelectAmmachi = async () => {
+    if (!selectedAmmachi || !currentUserId || !userEmail) {
+      toast.error("Please select an Ammachi");
+      return;
+    }
+    try {
+      toast.success("Ammachi selected! Emails incoming!");
+      await startEmailBombardment(currentUserId, userEmail);
+    } catch (error) {
+      toast.error("Failed to activate Ammachi");
+    }
+  };
+
   return (
     <div className="relative h-screen w-full bg-blue-100 p-6 overflow-hidden flex flex-col items-center ">
       <button
@@ -133,6 +200,7 @@ const Dashboard = () => {
       >
         <FiLogOut className="text-lg" /> Logout
       </button>
+      
       {/* Ammachi Selector Card */}
       <div className="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-4xl mb-8 mt-10">
         <div className="flex items-center justify-center gap-4">
@@ -143,9 +211,19 @@ const Dashboard = () => {
             <FiChevronLeft className="text-xl" />
           </button>
           
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-800">{selectedAmmachi?.name || "Ammachi"}</h1>
-            <p className="text-gray-600 text-sm">{selectedAmmachi?.description || ""}</p>
+          <div className="text-center flex-1">
+            <h1 className="text-2xl font-bold text-gray-800">{selectedAmmachi?.name }</h1>
+            <p className="text-gray-600 text-sm mb-4">{selectedAmmachi?.description || ""}</p>
+            
+            {/* Select Ammachi Button */}
+            <button
+              onClick={handleSelectAmmachi}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium w-full max-w-xs mx-auto"
+            >
+              Select Ammachi
+            </button>
+            
+
           </div>
           
           <button 
@@ -164,7 +242,7 @@ const Dashboard = () => {
           <img 
             src={AmmachiImage} 
             alt={selectedAmmachi?.name || "Ammachi"} 
-            className="w-40 h-40 object-cover rounded-lg  "
+            className="w-40 h-40 object-cover rounded-lg"
           />
         </div>
 
@@ -196,20 +274,19 @@ const Dashboard = () => {
       </div>
 
       {/* Chat Panel */}
-<div
-  className={`fixed bottom-0 left-0 right-0 bg-white/80 shadow-lg rounded-t-lg transition-all duration-300 mx-auto max-w-4xl mb-20 ${
-    isChatExpanded ? 'h-1/2' : 'h-16 opacity-70 hover:opacity-90'
-  }`}
->
-  <div 
-    className="h-16 flex items-center justify-between px-6 border-b cursor-pointer"
-    onClick={toggleChat}
-  >
-    <h2 className="font-semibold">Chat with Ammachi</h2>
-    {isChatExpanded ? <FiArrowDown /> : <FiArrowUp />}
-  </div>
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-white/80 shadow-lg rounded-t-lg transition-all duration-300 mx-auto max-w-4xl mb-20 ${
+          isChatExpanded ? 'h-1/2' : 'h-16 opacity-70 hover:opacity-90'
+        }`}
+      >
+        <div 
+          className="h-16 flex items-center justify-between px-6 border-b cursor-pointer"
+          onClick={toggleChat}
+        >
+          <h2 className="font-semibold">Chat with Ammachi</h2>
+          {isChatExpanded ? <FiArrowDown /> : <FiArrowUp />}
+        </div>
 
-        
         {isChatExpanded && (
           <div className="h-[calc(100%-64px)] flex flex-col">
             <div className="flex-1 p-4 overflow-y-auto">
@@ -224,7 +301,7 @@ const Dashboard = () => {
                         ? 'bg-blue-100 text-blue-900 rounded-bl-none' 
                         : 'bg-green-100 text-green-900 rounded-br-none'
                     }`}
-                    >
+                  >
                     {msg.text}
                   </div>
                 </div>
