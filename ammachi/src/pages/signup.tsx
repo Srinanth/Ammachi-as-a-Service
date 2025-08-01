@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaGoogle, FaLinkedin, FaGithub } from "react-icons/fa";
 import { supabase } from "../lib/supabaseClient";
 import { useNavigate } from "react-router";
@@ -11,20 +11,17 @@ export const SignUpForm = () => {
   const [password, setPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
-  const [isMobile,setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
+    handleResize();
     window.addEventListener("resize", handleResize);
-    
-    // cleanup
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -54,35 +51,47 @@ export const SignUpForm = () => {
   };
 
   const handleGoogleSignUp = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "google" });
+    await supabase.auth.signInWithOAuth({ 
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth-callback`
+      }
+    });
   };
+
   const handleLinkedinSignUp = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "linkedin" });
+    await supabase.auth.signInWithOAuth({ 
+      provider: "linkedin",
+      options: {
+        redirectTo: `${window.location.origin}/auth-callback`
+      }
+    });
   };
+
   const handleGithubSignUp = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "github" });
+    await supabase.auth.signInWithOAuth({ 
+      provider: "github",
+      options: {
+        redirectTo: `${window.location.origin}/auth-callback`
+      }
+    });
   };
 
   return (
-<div
-  className="h-screen w-screen overflow-hidden flex flex-col md:flex-row"
-  style={{
-    background: 'linear-gradient(to bottom, #c8e2f9, #6ecdeb, #243c74)',
-  }}
->      {/* Left Side: Ammachi Image */}
-      <div className="w-full md:w-1/2 flex justify-center items-end p-0 h-[30vh] md:h-full">
-        <img
-   src={isMobile ? AmmachiMobileImg : AmmachiImg}          alt="Ammachi Scolding"
-          className="object-contain h-full w-full"
-        />
-      </div>
-
-      {/* Right Side: Form */}
-      <div className="w-full md:w-1/2 flex justify-center items-center p-0">
-        <div className="w-full max-w-xl p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-lg md:mx-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900">Sign in</h1>
+    <div
+      className="h-screen w-screen overflow-hidden flex flex-col md:flex-row font-inter"
+      style={{
+        background: 'linear-gradient(to bottom, #c8e2f9, #6ecdeb, #243c74)',
+      }}
+    >
+      {/* Left Side: Form */}
+      <div className="w-full md:w-1/2 flex justify-center items-center p-0 order-2 md:order-1">
+        <div className="w-full max-w-xl p-6 md:p-10 space-y-6 bg-white rounded-2xl shadow-lg md:mx-8">
+          <div className="text-left pl-2">
+            <h1 className="text-3xl font-extrabold text-gray-900">Create Account</h1>
+            <p className="mt-2 text-sm text-gray-600">Sign up to get started</p>
           </div>
+          
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700">Username</label>
@@ -91,10 +100,11 @@ export const SignUpForm = () => {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Username"
               />
             </div>
+            
             <div>
               <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
@@ -102,10 +112,11 @@ export const SignUpForm = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your email..."
               />
             </div>
+            
             <div>
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input
@@ -113,33 +124,45 @@ export const SignUpForm = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 placeholder="••••••••"
               />
             </div>
 
-            {/* Terms & Conditions Button */}
-            <div className="flex items-center space-x-2">
-              <input type="checkbox" checked={acceptedTerms} readOnly />
-              <button
-                type="button"
-                onClick={() => setShowTerms(true)}
-                className="text-sm text-blue-600 hover:underline"
-              >
-                Agree to terms and conditions
-              </button>
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="terms"
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={() => setAcceptedTerms(!acceptedTerms)}
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
+                />
+              </div>
+              <div className="ml-3 text-sm">
+                <label htmlFor="terms" className="font-medium text-gray-700">
+                  I agree to the{" "}
+                  <button
+                    type="button"
+                    onClick={() => setShowTerms(true)}
+                    className="text-blue-600 hover:underline"
+                  >
+                    terms and conditions
+                  </button>
+                </label>
+              </div>
             </div>
 
             <button
               type="submit"
               disabled={!acceptedTerms}
-              className={`w-full py-2 px-4 text-white rounded-md text-sm font-medium shadow-sm ${
+              className={`w-full py-2 px-4 text-white rounded-lg text-sm font-medium shadow-sm ${
                 acceptedTerms
                   ? "bg-blue-600 hover:bg-blue-700"
                   : "bg-gray-400 cursor-not-allowed"
               }`}
             >
-              Sign up
+              Sign Up
             </button>
 
             {/* Divider */}
@@ -168,22 +191,31 @@ export const SignUpForm = () => {
         </div>
       </div>
 
+      {/* Right Side: Ammachi Image */}
+      <div className="w-full md:w-1/2 flex justify-center items-end p-0 h-[30vh] md:h-full order-1 md:order-2">
+        <img
+          src={isMobile ? AmmachiMobileImg : AmmachiImg}
+          alt="Ammachi Scolding"
+          className="object-contain h-full w-full"
+        />
+      </div>
+
       {/* Terms and Conditions Modal */}
       {showTerms && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-hidden">
-          <div className="bg-white rounded-lg max-w-lg w-full p-6 space-y-4 shadow-lg mx-4">
-            <h2 className="text-xl font-bold">Terms and Conditions</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-xl max-w-lg w-full p-6 space-y-4 shadow-lg mx-4">
+            <h2 className="text-xl font-bold text-gray-900">Terms and Conditions</h2>
             <div className="h-64 overflow-y-auto border border-gray-200 p-3 text-sm text-gray-700">
-              <p>
+              <p className="mb-3">
                 Welcome to Ammachi's platform. By signing up, you agree to be nice, respectful, and never
                 argue with Ammachi. If you skip your work, Ammachi will know. Violators will be scolded with no
                 mercy.
               </p>
-              <p className="mt-2">
+              <p className="mb-3">
                 You also agree to allow Ammachi to track your facial expressions and mood for better scolding
                 efficiency.
               </p>
-              <p className="mt-2">
+              <p>
                 By continuing, you acknowledge the use of mood detection, webcam access, and emotional analytics.
               </p>
             </div>
@@ -199,7 +231,7 @@ export const SignUpForm = () => {
                   setAcceptedTerms(true);
                   setShowTerms(false);
                 }}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
               >
                 Accept
               </button>
