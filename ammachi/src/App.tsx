@@ -4,6 +4,7 @@ import { SignUpForm } from './pages/signup';
 import { LoginForm } from './pages/Login';
 import Dashboard from './pages/dashboard';
 import { Toaster } from "react-hot-toast";
+import NotFound from "./pages/404";
 // import WebcamMood from "./pages/webcam";
 
 const App = () => {
@@ -13,7 +14,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<SignUpForm />}/>
         <Route path="/login" element={<LoginForm/>}/>
-        <Route path="/dashboard" element={<Dashboard />}/>
+       <Route path="/dashboard" element={<Dashboard />}/>
+       <Route path="/error" element={<NotFound/>}/>
         {/* <Route path="/webcam" element={<WebcamMood />}/> */}
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />
