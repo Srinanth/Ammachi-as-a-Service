@@ -6,12 +6,12 @@ const NotFound: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-sky-200 to-blue-400 flex flex-col items-center">
       {/* 404 Content */}
-      <div className="text-top z-10 mt-50">
+      <div className="text-center z-10 mt-50">
         <h1 className="text-[12rem] font-bold text-white leading-none">404</h1>
-        <p className="text-4xl py-1 text-white font-semibold mt-2">
+        <p className="text-4xl py-4 px-4 text-white font-semibold mt-2">
           Welp! Something went wrong
         </p>
-        <p className="text-2x1 font-extrabold text-white opacity-90">വാഴക്കൊമ്പും വരെ ഇല്ല ഇവിടെ!!</p>
+        <p className="text-2xl font-extrabold text-white opacity-90">വാഴക്കൊമ്പും വരെ ഇല്ല ഇവിടെ!!</p>
       </div>
 
       {/* Bottom section with button and image */}

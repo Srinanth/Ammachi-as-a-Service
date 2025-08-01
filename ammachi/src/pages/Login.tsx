@@ -55,16 +55,16 @@ export const LoginForm = () => {
 
   return (
     <div
-      className="h-screen w-screen overflow-hidden flex flex-col md:flex-row"
+      className="h-screen w-screen overflow-hidden flex flex-col md:flex-row font-inter"
       style={{
         background: 'linear-gradient(to bottom, #c8e2f9, #6ecdeb, #243c74)',
       }}
     >
       {/* Left Side: Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-0 order-2 md:order-1">
-        <div className="w-full max-w-xl p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-lg md:mx-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
+        <div className="w-full max-w-xl p-6 md:p-10 space-y-6 bg-white rounded-2xl shadow-lg md:mx-8">
+          <div className="text-left pl-2">
+            <h1 className="text-3xl font-extrabold text-gray-900">Welcome Back</h1>
             <p className="mt-2 text-sm text-gray-600">Login to continue</p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -75,7 +75,7 @@ export const LoginForm = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your email..."
               />
             </div>
@@ -86,14 +86,14 @@ export const LoginForm = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 placeholder="••••••••"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-2 px-4 text-white rounded-md text-sm font-medium shadow-sm bg-blue-600 hover:bg-blue-700"
+              className="w-full py-2 px-4 text-white rounded-lg text-sm font-medium shadow-sm bg-blue-600 hover:bg-blue-700"
             >
               Log in
             </button>
