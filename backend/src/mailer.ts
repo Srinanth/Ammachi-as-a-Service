@@ -67,17 +67,42 @@ app.post("/api/send-ammachi-mail", async (req, res) => {
   }
 
   // Add tracking URL
-  const trackingUrl = `${frontendUrl}/ammachi-response?userId=${userId}`;
+  const trackingUrl = `${frontendUrl}/webcam`;
   const fullMessage = `${message}\n\nAre you ignoring Ammachi? Click here within 3 minutes: ${trackingUrl}`;
 
-  const mailOptions = {
-    from: `"Ammachi 👵" <${process.env.EMAIL_USER}>`,
-    to,
-    subject: "⚠️ Ammachi is watching you!",
-    text: fullMessage,
-    html: `<p>${fullMessage.replace(/\n/g, "<br>")}</p>`,
-  };
+const fullMessageHTML = `
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fff8f0; padding: 20px; border-radius: 8px; color: #333;">
+    <h2 style="color: #e53935;">Ammachi is watching you! 👵</h2>
+    <p style="font-size: 16px;">${message.replace(/\n/g, "<br>")}</p>
+    
+    <p style="margin-top: 20px; font-size: 16px;">Are you ignoring Ammachi?</p>
+    
+    <a href="${trackingUrl}" 
+       style="
+         display: inline-block;
+         margin-top: 10px;
+         padding: 12px 20px;
+         background-color: #ff7043;
+         color: white;
+         text-decoration: none;
+         border-radius: 5px;
+         font-weight: bold;
+         font-size: 16px;
+       ">
+      Click here within 3 minutes ⚠️
+    </a>
 
+    <p style="margin-top: 30px; font-size: 14px; color: #999;">This message was lovingly sent by Ammachi to keep you on track ❤️</p>
+  </div>
+`;
+
+const mailOptions = {
+  from: `"Ammachi 👵" <${process.env.EMAIL_USER}>`,
+  to,
+  subject: "⚠️ Ammachi is watching you!",
+  text: fullMessage, // for plain-text email fallback
+  html: fullMessageHTML,
+};
   try {
     await transporter.sendMail(mailOptions);
     return res.status(200).json({ success: true, message: "Mail sent" });
