@@ -3,12 +3,16 @@
 import  { useEffect, useState, useRef } from "react";
 import Human from "@vladmandic/human";
 import { supabase } from "../lib/supabaseClient";
+import { useNavigate } from "react-router";
+
 
 const WebcamMood = () => {
   const webcamRef = useRef<HTMLVideoElement>(null);
   const [mood, setMood] = useState<string | null>(null);
   const [loadingText, setLoadingText] = useState("Ammachi is getting ready...");
   const [showResponse, setShowResponse] = useState(false);
+  const [showDashboardButton, setShowDashboardButton] = useState(false);
+   const navigate = useNavigate();
 
   const loadingMessages = [
     "Ammachi is looking at you closely...",
@@ -67,7 +71,7 @@ const WebcamMood = () => {
       }
 
       const elapsed = Date.now() - startTime;
-      if (elapsed < 15000) {
+      if (elapsed < 7000) {
         updateLoadingText();
         setTimeout(detect, 1000);
       } else {
@@ -83,6 +87,7 @@ const WebcamMood = () => {
     setMood(finalMood);
     setShowResponse(true);
     await updateUserMood(finalMood);
+    setShowDashboardButton(true);
   };
 
   const updateUserMood = async (mood: string) => {
@@ -126,7 +131,14 @@ const WebcamMood = () => {
         return "I don't understand this expression!";
     }
   };
-
+  const handleGoToDashboard = () => {
+    // Stop the webcam stream
+    if (webcamRef.current?.srcObject) {
+      const stream = webcamRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+    }
+    navigate("/dashboard"); // Adjust the route as needed
+  };
   return (
     <div className="flex flex-col items-center justify-center h-screen p-4 text-white bg-black">
       <h1 className="text-3xl font-bold mb-4">Ammachi Mood Scan</h1>
@@ -137,10 +149,21 @@ const WebcamMood = () => {
       )}
 
       {showResponse && mood && (
-        <div className="text-xl mt-4 bg-gray-800 p-4 rounded-xl text-center w-full max-w-md">
-          <span className="font-bold text-yellow-400">Ammachi says: </span>
-          <br />
-          {getAmmachiResponse(mood)}
+        <div className="flex flex-col items-center">
+          <div className="text-xl mt-4 bg-gray-800 p-4 rounded-xl text-center w-full max-w-md mb-6">
+            <span className="font-bold text-yellow-400">Ammachi says: </span>
+            <br />
+            {getAmmachiResponse(mood)}
+          </div>
+          
+          {showDashboardButton && (
+            <button
+              onClick={handleGoToDashboard}
+              className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-lg transition-colors duration-300"
+            >
+              Go to Dashboard
+            </button>
+          )}
         </div>
       )}
     </div>
