@@ -49,7 +49,7 @@ export const SignUpForm = () => {
     if (user) {
       toast.success("Signup successful! Redirecting...");
       console.log("User signed up successfully!");
-      navigate("/dashboard");
+      navigate("/login");
     }
   };
 
