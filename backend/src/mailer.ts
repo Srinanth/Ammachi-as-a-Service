@@ -104,7 +104,7 @@ app.post("/api/send-ammachi-mail", async (req, res) => {
   }
 });
 
-app.get("/api/track-response", async (req, res) => {
+app.get("https://ammachi-as-a-service.vercel.app/api/track-response", async (req, res) => {
   const { userId } = req.query;
 
   if (!userId) {
@@ -130,7 +130,7 @@ app.get("/api/track-response", async (req, res) => {
   }
 });
 
-app.post('/api/ammachi-chat', async (req, res) => {
+app.post('https://ammachi-as-a-service.vercel.app/api/ammachi-chat', async (req, res) => {
   try {
     const { moodLevel, userInput, questionCount, chatHistory } = req.body;
     
