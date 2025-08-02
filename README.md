@@ -1,7 +1,7 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Ammachi-as-a-Service] 🎯
+# Ammachi-as-a-Service 🎯
 
 
 ## Basic Details
@@ -9,7 +9,7 @@
 
 
 ### Team Members
-- 👨‍💻**Team Lead: ** Srinanth MV – *Rajiv Gandhi Institute of Science and Technology*  
+- 👨‍💻**Team Lead:** Srinanth MV – *Rajiv Gandhi Institute of Science and Technology*  
 - 👨‍💻 **Member 2:** Angelo Joemon – *Rajiv Gandhi Institute of Science and Technology*
 
 ### Project Description
@@ -44,8 +44,6 @@ npm run dev
 ```
 
 ---
-### Project Documentation
-For Software:
 
 # Screenshots (Add at least 3)
 ![Screenshot1](./Screenshots/login.jpeg )
@@ -62,7 +60,7 @@ For Software:
 
 ## Team Contributions
 - **Srinanth**: **implementation**
-- **Angelo**: **Design & UI**
+- **Angelo**  : **Design & UI**
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
