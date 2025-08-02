@@ -395,11 +395,11 @@ const getMoodLabel = (level: number): string => {
 
       {/* Mood and Quote Card with Image */}
       <div className="relative w-full max-w-4xl mb-8">
-        <div className="absolute -top-8 left-8 z-10">
+        <div className="absolute -top-8 left-8 z-10 hidden md:block">
           <img 
             src={AmmachiImage} 
             alt={selectedAmmachi?.name} 
-            className="w-40 h-40 object-cover  "
+            className="w-40 h-55"
           />
         </div>
 
