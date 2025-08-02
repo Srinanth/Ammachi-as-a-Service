@@ -34,7 +34,7 @@ Important Response Format Rules:
 4. Never show the ###MOOD_UPDATE### or [NEW_MOOD:XX] tags in the chat
 
 Example correct response when updating mood:
-Sheri molae, njan ninne kshamichu. ###MOOD_UPDATE### [NEW_MOOD:75]
+Sheri mole, njan ninne kshamichu. ###MOOD_UPDATE### [NEW_MOOD:75]
 
 Current conversation history:
 ${chatHistory.map(m => `${m.sender === 'ammachi' ? 'Ammachi' : 'User'}: ${m.text}`).join('\n')}
@@ -77,7 +77,7 @@ Respond as Ammachi in Manglish based on current mood. ${
 } catch (error) {
     console.error("Gemini error:", error);
     return { 
-      response: "Aiyyo! Enikku ithu parayan pattunilla. Try again later.", 
+      response: "Aiyyo! Enikku onnum parayan pattunilla. Try again later.", 
       mood: null 
     };
   }

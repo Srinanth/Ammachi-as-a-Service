@@ -4,6 +4,8 @@ import { supabase } from "../lib/supabaseClient";
 import { useNavigate } from "react-router";
 import AmmachiImg from "../assets/signup.png";
 import AmmachiMobileImg from "../assets/phonesignup.png";
+import toast from "react-hot-toast";
+
 
 export const SignUpForm = () => {
   const [username, setUsername] = useState("");
@@ -39,42 +41,28 @@ export const SignUpForm = () => {
     });
 
     if (error) {
-      console.error("Signup error:", error.message);
+    toast.error(error.message || "Something went wrong during signup.");      console.error("Signup error:", error.message);
       return;
     }
 
     const user = data.user;
     if (user) {
+      toast.success("Signup successful! Redirecting...");
       console.log("User signed up successfully!");
       navigate("/dashboard");
     }
   };
 
   const handleGoogleSignUp = async () => {
-    await supabase.auth.signInWithOAuth({ 
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth-callback`
-      }
-    });
+   navigate("/haha");
   };
 
   const handleLinkedinSignUp = async () => {
-    await supabase.auth.signInWithOAuth({ 
-      provider: "linkedin",
-      options: {
-        redirectTo: `${window.location.origin}/auth-callback`
-      }
-    });
+    navigate("/haha");  
   };
 
   const handleGithubSignUp = async () => {
-    await supabase.auth.signInWithOAuth({ 
-      provider: "github",
-      options: {
-        redirectTo: `${window.location.origin}/auth-callback`
-      }
-    });
+    navigate("/haha");
   };
 
   return (
