@@ -8,7 +8,7 @@ import { getAmmachiResponse } from './gemini.js';
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: "https://ammachi-as-a-service.vercel.app" }));
+app.use(cors({ origin: "http://localhost:5273" }));
 app.use(express.json());
 
 const supabase = createClient(
@@ -104,7 +104,7 @@ app.post("/api/send-ammachi-mail", async (req, res) => {
   }
 });
 
-app.get("https://ammachi-as-a-service.vercel.app/api/track-response", async (req, res) => {
+app.get("http://localhost:5273/api/track-response", async (req, res) => {
   const { userId } = req.query;
 
   if (!userId) {
@@ -130,7 +130,7 @@ app.get("https://ammachi-as-a-service.vercel.app/api/track-response", async (req
   }
 });
 
-app.post('https://ammachi-as-a-service.vercel.app/api/ammachi-chat', async (req, res) => {
+app.post('http://localhost:5273/api/ammachi-chat', async (req, res) => {
   try {
     const { moodLevel, userInput, questionCount, chatHistory } = req.body;
     

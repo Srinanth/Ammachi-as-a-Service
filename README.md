@@ -1,8 +1,8 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
-Ammachi-as-a-Service
+# [Ammachi-as-a-Service] 🎯
+
 
 ## Basic Details
 ### Team Name: [drag-on]
@@ -48,19 +48,17 @@ npm run dev
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](./Screenshots/login.jpeg )
+*This displays the login page of ammachi as a service*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](./Screenshots/frontpage.jpeg)
+*This displays the main interface of ammachi as a service, here the users can see ammachi's current mood, customize the type of virtual ammachi they want, talk to ammachi and so on.*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](./Screenshots/mail.jpeg)
+*This is one of those mail ammachi sends us to check up on us.. from here you will be redirected to webcam page*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
+![Screenshot4](./Screenshots/webcam.jpeg)
+*This is the page where ammachi analyses our mood and scoldes us if we are sleepy or motivates us if we look sad.*
 
 ## Team Contributions
 - [Srinanth]: [implementation]
