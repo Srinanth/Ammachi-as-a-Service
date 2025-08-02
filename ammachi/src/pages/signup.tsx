@@ -207,34 +207,35 @@ export const SignUpForm = () => {
             <h2 className="text-xl font-bold text-gray-900">Terms and Conditions</h2>
             <div className="h-64 overflow-y-auto border border-gray-200 p-3 text-sm text-gray-700">
               <p className="mb-3">
-                Welcome to Ammachi's platform. By signing up, you agree to be nice, respectful, and never
-                argue with Ammachi. If you skip your work, Ammachi will know. Violators will be scolded with no
-                mercy.
+                      <span className="font-semibold">ഇത് വെറും വെബ്സൈറ്റ് മാത്രമാണ്.</span>
+                        നിങ്ങളെ ശല്യപ്പെടുത്താൻ മാത്രം ആണ് Ammachi ഇവിടെ ഇരിക്കുന്നതു. Productivity, Knowledge, Skill Development… ഈ കാര്യങ്ങൾക്കൊന്നും ഈ സൈറ്റ് ഉദ്ദേശിച്ചിട്ടില്ല.
               </p>
               <p className="mb-3">
-                You also agree to allow Ammachi to track your facial expressions and mood for better scolding
-                efficiency.
+                        <span className="font-semibold">Face Expressions & Clicks ന് വല്ലാത്ത രോഷം കാണിക്കും</span> നിങ്ങളുടെ മുഖം, expressions, click ചെയ്യുന്നത്, ഒന്നും Ammachi-യുടെ കണക്റ്റ് ആക്കിയിട്ടില്ല. എന്നാൽ ഈ Ammachi പറയുന്നത് കേട്ട് നിങ്ങളെ കുറ്റബോധത്തിൽ ആക്കാനാണ് ഈ വെബ്സൈറ്റ് ഉദ്ദേശിക്കുന്നത്.
+              </p>
+              <p className="mb-3">
+              <span className="font-semibold">നിങ്ങളുടെ ഡാറ്റ ഞങ്ങൾ ശേഖരിക്കില്ല.</span> Website കമറാ Access ചോദിക്കും, എന്നാൽ അത് വെറും ഫീച്ചർ മാത്രമാണ്. നിങ്ങളുടെ webcam-ൽ എന്ത് സംഭവിക്കുകയോ, നിങ്ങൾ എന്ത് ചെയ്യുകയോ ഞങ്ങൾ കാണുന്നില്ല. Ammachi-യുടെ കണക്റ്റ് ആക്കിയിട്ടില്ല.
               </p>
               <p>
-                By continuing, you acknowledge the use of mood detection, webcam access, and emotional analytics.
-              </p>
-            </div>
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setShowTerms(false)}
-                className="px-4 py-2 text-sm text-gray-600 hover:underline"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setAcceptedTerms(true);
-                  setShowTerms(false);
-                }}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
-              >
-                Accept
-              </button>
+              <span className="font-semibold">പകരം കിട്ടുന്നത്: ഒരു ചിരി അല്ലെങ്കിൽ തലവേദന.</span> ഈ വെബ്സൈറ്റ് ഉപയോഗിച്ചാൽ നിങ്ങൾക്ക് കിട്ടുന്ന ഒന്നേ ഒന്നു Output ഉണ്ട് — പുഞ്ചിരിയോ തലവേദനയോ!
+               </p>
+          </div>
+<div className="flex justify-end gap-2 pt-4">
+  <button
+    onClick={() => setShowTerms(false)}
+    className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition"
+  >
+    എനിക്ക് പേടിയാണ് - റദ്ദാക്കുക
+  </button>
+  <button
+    onClick={() => {
+      setAcceptedTerms(true);
+      setShowTerms(false);
+    }}
+    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm shadow-md transition"
+  >
+    ഞാൻ എൻ്റെ വിധി അംഗീകരിക്കുന്നു
+  </button>
             </div>
           </div>
         </div>

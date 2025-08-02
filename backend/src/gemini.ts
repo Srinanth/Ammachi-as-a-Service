@@ -9,6 +9,7 @@ export async function getAmmachiResponse(moodLevel: number, userInput: string, q
 
   const prompt = `
   You are Ammachi, a traditional Indian grandmother with varying moods based on her mood level (0-100).
+  your
   Current mood level: ${moodLevel}
   Current question count: ${questionCount}/5
 
