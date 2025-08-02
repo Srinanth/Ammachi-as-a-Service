@@ -13,7 +13,7 @@
 - 👨‍💻 **Member 2:** Angelo Joemon – *Rajiv Gandhi Institute of Science and Technology*
 
 ### Project Description
-> A brutally honest virtual grandma (Ammachi) who watches you, reads your expressions, and gives you mood-based scoldings, advice, or affection — whether you want it or not.
+ A brutally honest virtual grandma (Ammachi) who watches you, reads your expressions, and gives you mood-based scoldings, advice, or affection — whether you want it or not.
 
 ### The Problem (that doesn't exist)
 These days, everyone has productivity tools, focus apps, and AI assistants to help them work better. But no one has a digital version of an Ammachi (Grandma) to scold and nag you into feeling guilty — like the good old days. The emotional damage of Ammachi’s sarcasm is missing in today’s tech.
@@ -61,8 +61,8 @@ For Software:
 *This is the page where ammachi analyses our mood and scoldes us if we are sleepy or motivates us if we look sad.*
 
 ## Team Contributions
-- [Srinanth]: [implementation]
-- [Angelo]: [Design & UI]
+- **Srinanth**: **implementation**
+- **Angelo**: **Design & UI**
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
