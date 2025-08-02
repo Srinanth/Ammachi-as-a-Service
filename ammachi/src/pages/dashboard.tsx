@@ -2,8 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "../lib/supabaseClient";
 import toast from "react-hot-toast";
 import { FiSend, FiChevronLeft, FiChevronRight, FiArrowUp, FiArrowDown, FiLogOut, FiCamera } from "react-icons/fi";
-import AmmachiImage from "../assets/login.png";
+import AmmachiImage from "../assets/shrug.png";
 import { useNavigate, Link } from "react-router-dom";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 
 type Ammachi = {
   id: string;
@@ -98,14 +101,26 @@ const Dashboard = () => {
   // Start conversation based on current mood
   const startConversation = () => {
     let greeting = "";
-    if (moodLevel >= 80) {
-      greeting = "Ente kuttiii! Vaa, kudikkan onnum undo? (My child! Come, do you want something to drink?)";
-    } else if (moodLevel >= 50) {
-      greeting = "Sheri, parayu. Enikku kure pani und. (Okay, tell me. I have some work.)";
-    } else if (moodLevel > 0) {
-      greeting = "Ithokke entha karyam? Nee innalathe kuzhappam cheythille? (What's this? Didn't you make a mistake yesterday?)";
-    } else {
-      greeting = "Poda monae! Njan samadhanam illa! (Go away! I'm not happy!)";
+    if (moodLevel >= 90) {
+  greeting = "Ente kunjee! Nee vannathil njan valare santhoshavathi aahnu! (My golden child! I'm so happy you've come!)";
+} else if (moodLevel >= 80) {
+  greeting = "Ente kuttiii! Vaa, chaaya kudicho? (My child! Come, do you want something to drink?)";
+} else if (moodLevel >= 70) {
+  greeting = "Vannille kutta? Sheri, kurachu neram undu samsarikam. (You came? Okay, let’s talk for a bit.)";
+} else if (moodLevel >= 60) {
+  greeting = "Ninte karyam parayu, njan kelkkam. (Tell me what’s going on, I’ll listen.)";
+} else if (moodLevel >= 50) {
+  greeting = "Enthina vanne? Sheri, parayu. Enikku kure pani und. (Okay, tell me. I have some work.)";
+} else if (moodLevel >= 40) {
+  greeting = "enthengilum preshnam undo innu? (Are you being difficult today?)";
+} else if (moodLevel >= 30) {
+  greeting = "Allengilum njan parayunne kelkkan samayam illa ninaykk. (No one listens here, do you even care?)";
+} else if (moodLevel >= 20) {
+  greeting = "Nee mathram alla, ella kuttikalkum ippo bahumanam illla. (Not just you, all the kids are annoying now.)";
+} else if (moodLevel >= 10) {
+  greeting = "nee ennod ini mindanda(Don't talk to me!?)";
+} else {
+  greeting = "ennodini orikkalum mindanda!! (Go away! I'm not happy!)";
     }
     setChatMessages([{ sender: 'ammachi', text: greeting }]);
   };
@@ -168,7 +183,7 @@ const Dashboard = () => {
               ...prev,
               { 
                 sender: 'ammachi', 
-                text: "Sheri, njan kshamichu. Pakshe again ingane cheythal njan samadhanamilla! (Okay, I forgive. But don't do this again!)" 
+                text: "Sheri, njan kshamichu. Pakshe again ingane cheythal njan sammadhikkilla! (Okay, I forgive. But don't do this again!)" 
               }
             ]);
             setApologyCount(0);
@@ -181,7 +196,7 @@ const Dashboard = () => {
             ...prev,
             { 
               sender: 'ammachi', 
-              text: "Hmph! Ithra thanne? Njan innum valare kopa aanu! (Hmph! Is that all? I'm still very angry!)" 
+              text: "Hmph! Ithra thanne? Njan innum valare dheshyam und! (Hmph! Is that all? I'm still very angry!)" 
             }
           ]);
           setIsLoading(false);
@@ -190,7 +205,7 @@ const Dashboard = () => {
       }
 
       // Normal conversation flow
-      const response = await fetch('http://localhost:5000/api/ammachi-chat', {
+      const response = await fetch(`${backendUrl}/api/ammachi-chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -231,7 +246,7 @@ const Dashboard = () => {
             ...prev,
             { 
               sender: 'ammachi', 
-              text: "Njan valare kopa aanu! Ningal sherikum kshamapetenda! (I'm very angry! You need to apologize properly!)" 
+              text: "Enikk nalla dheshyam und! Nee sherikum Sorry parayanam! (I'm very angry! You need to apologize properly!)" 
             }
           ]);
           setApologyCount(0);
@@ -275,16 +290,16 @@ const getMoodLabel = (level: number): string => {
 
   const getMoodQuote = () => {
     if (!selectedAmmachi?.mood_quotes) {
-      if (moodLevel >= 80) return "Ente kuttiii! Vaa, kudikkan onnum undo?";
-      else if (moodLevel >= 50) return "Sheri, parayu. Enikku kure pani und.";
-      else if (moodLevel > 0) return "Ithokke entha karyam? Nee innalathe kuzhappam cheythille?";
-      else return "Poda monae! Njan samadhanam illa!";
+      if (moodLevel >= 80) return "Ente kuttiii! Vaa, chaaya kudicho?";
+      else if (moodLevel >= 50) return "Entha vanne?Sheri, parayu. Enikku kure pani und.";
+      else if (moodLevel > 0) return "Nee ivde vanna karyam parayu, njan kelkkam";
+      else return "Njan Samsaarikilla!!!";
     }
     
     if (moodLevel >= 80) return selectedAmmachi.mood_quotes.happy;
     else if (moodLevel >= 50) return selectedAmmachi.mood_quotes.neutral;
     else if (moodLevel > 0) return selectedAmmachi.mood_quotes.angry;
-    else return "I'm not talking to you! Njan samadhanam illa!";
+    else return "I'm not talking to you! Njan Samsaarikkilla!";
   };
 
   const toggleChat = () => {
@@ -298,7 +313,7 @@ const getMoodLabel = (level: number): string => {
   };
 
   const sendEmail = async (email: string, userId: string, frontendUrl: string, message: string) => {
-    const res = await fetch("http://localhost:5000/api/send-ammachi-mail", {
+    const res = await fetch(`${backendUrl}/api/send-ammachi-mail`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ to: email, message, userId, frontendUrl })
@@ -406,7 +421,6 @@ const getMoodLabel = (level: number): string => {
           </div>
 
           <div className="text-center">
-            <h3 className="font-medium mb-2">Dialogue based on mood</h3>
             <p className="text-gray-700 italic">"{getMoodQuote()}"</p>
           </div>
         </div>

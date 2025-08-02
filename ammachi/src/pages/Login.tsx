@@ -4,6 +4,8 @@ import { supabase } from "../lib/supabaseClient";
 import { useNavigate } from "react-router";
 import AmmachiImg from "../assets/login.png";
 import AmmachiMobileImg from "../assets/phonelogin.png";
+import toast from 'react-hot-toast';
+
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -35,23 +37,22 @@ export const LoginForm = () => {
 
     if (error) {
       console.error("Login error:", error.message);
+      toast.error("Invalid credentials. Please try again.");
     } else {
+      toast.success("Login successful!");
       console.log("Login successful!", data);
       navigate("/dashboard");
     }
   };
 
   const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "google" });
-  };
+    navigate("/haha");  };
 
   const handleLinkedinLogin = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "linkedin" });
-  };
+    navigate("/haha");  };
 
   const handleGithubLogin = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "github" });
-  };
+    navigate("/haha");  };
 
   return (
     <div
